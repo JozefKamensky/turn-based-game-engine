@@ -2,9 +2,9 @@ package jozef.kamensky.resources;
 
 import java.util.Map;
 
-public class NormalResource extends BaseResource {
+public class RegularResource extends BaseResource {
 
-    public NormalResource(String id, String name, String description, int amount, int maxAmount) {
+    public RegularResource(String id, String name, String description, int amount, int maxAmount) {
         super(id, name, description, amount, maxAmount);
     }
 

@@ -12,7 +12,7 @@ class CalculatedResourceTest {
     @Test
     public void shouldCalculateCorrectly_happyScenario(){
         var r = ResourceTestsUtils.createCalculatedResource(0, 100, ResourceTestsUtils.ID, 5);
-        var r2 = ResourceTestsUtils.createNormalResource(10, 100);
+        var r2 = ResourceTestsUtils.createRegularResource(10, 100);
         Map<String, BaseResource> resourceMap = Collections.singletonMap(r2.getId(), r2);
         assertEquals(0, r.getAmount());
         r.onTurnStart(resourceMap);
@@ -22,7 +22,7 @@ class CalculatedResourceTest {
     @Test
     public void shouldCalculateCorrectly_calculateFromZero(){
         var r = ResourceTestsUtils.createCalculatedResource(0, 100, ResourceTestsUtils.ID, 5);
-        var r2 = ResourceTestsUtils.createNormalResource(0, 100);
+        var r2 = ResourceTestsUtils.createRegularResource(0, 100);
         Map<String, BaseResource> resourceMap = Collections.singletonMap(r2.getId(), r2);
         assertEquals(0, r.getAmount());
         r.onTurnStart(resourceMap);
@@ -41,7 +41,7 @@ class CalculatedResourceTest {
     @Test
     public void shouldCalculateCorrectly_clipToMax(){
         var r = ResourceTestsUtils.createCalculatedResource(0, 100, ResourceTestsUtils.ID, 50);
-        var r2 = ResourceTestsUtils.createNormalResource(10, 100);
+        var r2 = ResourceTestsUtils.createRegularResource(10, 100);
         Map<String, BaseResource> resourceMap = Collections.singletonMap(r2.getId(), r2);
         assertEquals(0, r.getAmount());
         r.onTurnStart(resourceMap);

@@ -1,6 +1,5 @@
 package jozef.kamensky.resources;
 
-import jozef.kamensky.Action;
 import jozef.kamensky.OnTurnStart;
 
 import java.util.Collections;
@@ -21,7 +20,7 @@ public class ResourcesManager implements OnTurnStart {
     }
 
     /* for test purposes only */
-    public Map<String, BaseResource> getResourceMap() {
+    protected Map<String, BaseResource> getResourceMap() {
         return Collections.unmodifiableMap(resourceMap);
     }
 }
