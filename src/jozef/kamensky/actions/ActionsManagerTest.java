@@ -1,10 +1,11 @@
 package jozef.kamensky.actions;
 
+import jozef.kamensky.actions.yields.ResourceYield;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,12 +32,12 @@ class ActionsManagerTest {
     }
 
     private void prepareSimpleActionView(boolean isPeriodic) {
-        var aw = new ActionView(ID1, "test", "test", null, Collections.emptyMap(), DURATION, isPeriodic);
+        var aw = new ActionView(ID1, "test", "test", null, Collections.emptyList(), Collections.emptyList(), DURATION, isPeriodic);
         actionsManager.addNewAction(aw);
     }
 
-    private void prepareSimpleActionView(Map<String, Integer> yield, boolean isPeriodic) {
-        var aw = new ActionView(ID1, "test", "test", null, yield, DURATION, isPeriodic);
+    private void prepareSimpleActionView(List<ResourceYield> resourceYields) {
+        var aw = new ActionView(ID1, "test", "test", null, resourceYields, Collections.emptyList(), DURATION, false);
         actionsManager.addNewAction(aw);
     }
 
@@ -85,7 +86,7 @@ class ActionsManagerTest {
 
     @Test
     public void shouldReturnYields() {
-        prepareSimpleActionView(Map.of("wood", 10), false);
+        prepareSimpleActionView(Collections.singletonList(new ResourceYield("wood", 10)));
         actionsManager.startNewAction(ID1);
         var yields = actionsManager.onTurnStart();
         assertEquals(1, yields.size());
@@ -95,7 +96,7 @@ class ActionsManagerTest {
 
     @Test
     public void shouldReturnAggregatedYields() {
-        prepareSimpleActionView(Map.of("wood", 10), false);
+        prepareSimpleActionView(Collections.singletonList(new ResourceYield("wood", 10)));
         actionsManager.startNewAction(ID1);
         actionsManager.startNewAction(ID1);
         var yields = actionsManager.onTurnStart();

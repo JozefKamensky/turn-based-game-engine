@@ -30,10 +30,10 @@ public class ActionsManager {
         for (BaseAction action: ongoingActions) {
             if (action.isCompleted()) {
                 var actionView = actionsMap.get(action.getActionViewId());
-                var actionYields = actionView.getYield();
-                actionYields.forEach((id1, amount1) -> {
-                    yields.computeIfPresent(id1, (id2, amount2) -> amount1 + amount2);
-                    yields.putIfAbsent(id1, amount1);
+                var actionYields = actionView.getResourceYields();
+                actionYields.forEach(yield -> {
+                    yields.computeIfPresent(yield.getResourceId(), (id2, amount2) -> yield.getAmount() + amount2);
+                    yields.putIfAbsent(yield.getResourceId(), yield.getAmount());
                 });
                 newOngoingActions.addAll(action.getFollowUpActions());
             } else {

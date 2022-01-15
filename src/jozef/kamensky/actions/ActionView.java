@@ -1,5 +1,9 @@
 package jozef.kamensky.actions;
 
+import jozef.kamensky.actions.yields.ActionYield;
+import jozef.kamensky.actions.yields.ResourceYield;
+
+import java.util.List;
 import java.util.Map;
 
 public class ActionView {
@@ -8,16 +12,19 @@ public class ActionView {
     private final String name;
     private final String description;
     private final Map<String, Integer> cost;
-    private final Map<String, Integer> yield;
+    private final List<ResourceYield> resourceYields;
+    private final List<ActionYield> actionYields;
     private final Integer duration;
     private final boolean isPeriodic;
 
-    public ActionView(String id, String name, String description, Map<String, Integer> cost, Map<String, Integer> yield, Integer duration, boolean isPeriodic) {
+
+    public ActionView(String id, String name, String description, Map<String, Integer> cost, List<ResourceYield> resourceYields, List<ActionYield> actionYields, Integer duration, boolean isPeriodic) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.cost = cost;
-        this.yield = yield;
+        this.resourceYields = resourceYields;
+        this.actionYields = actionYields;
         this.duration = duration;
         this.isPeriodic = isPeriodic;
     }
@@ -38,8 +45,12 @@ public class ActionView {
         return cost;
     }
 
-    public Map<String, Integer> getYield() {
-        return yield;
+    public List<ResourceYield> getResourceYields() {
+        return resourceYields;
+    }
+
+    public List<ActionYield> getActionYields() {
+        return actionYields;
     }
 
     public Integer getDuration() {
