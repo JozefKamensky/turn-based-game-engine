@@ -3,8 +3,8 @@ package jozef.kamensky.actions.yields;
 public class ActionYield {
 
     public enum ActionYieldType {
-        ACTION_ADD,
-        ACTION_REMOVE,
+        ACTION_UNLOCK,
+        ACTION_LOCK,
         ACTION_START,
         ACTION_STOP,
     }

@@ -6,28 +6,11 @@ import jozef.kamensky.actions.yields.ResourceYield;
 import java.util.List;
 import java.util.Map;
 
-public class ActionView {
-
-    private final String id;
-    private final String name;
-    private final String description;
-    private final Map<String, Integer> cost;
-    private final List<ResourceYield> resourceYields;
-    private final List<ActionYield> actionYields;
-    private final Integer duration;
-    private final boolean isPeriodic;
-
-
-    public ActionView(String id, String name, String description, Map<String, Integer> cost, List<ResourceYield> resourceYields, List<ActionYield> actionYields, Integer duration, boolean isPeriodic) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.cost = cost;
-        this.resourceYields = resourceYields;
-        this.actionYields = actionYields;
-        this.duration = duration;
-        this.isPeriodic = isPeriodic;
-    }
+public record ActionView(String id, String name, String description,
+                         Map<String, Integer> cost,
+                         List<ResourceYield> resourceYields,
+                         List<ActionYield> actionYields,
+                         Integer duration, boolean isPeriodic, boolean isVisibleByPlayer) {
 
     public String getId() {
         return id;
@@ -57,7 +40,16 @@ public class ActionView {
         return duration;
     }
 
-    public boolean isPeriodic() {
-        return isPeriodic;
+    public boolean isVisibleByPlayer() {
+        return isVisibleByPlayer;
     }
+
+    public ActionView cloneAsUnlocked() {
+        return new ActionView(id, name, description, cost, resourceYields, actionYields, duration, isPeriodic, true);
+    }
+
+    public ActionView cloneAsLocked() {
+        return new ActionView(id, name, description, cost, resourceYields, actionYields, duration, isPeriodic, false);
+    }
+
 }
