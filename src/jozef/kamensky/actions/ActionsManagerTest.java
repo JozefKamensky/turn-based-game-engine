@@ -33,6 +33,11 @@ class ActionsManagerTest {
         assertTrue(actionsManager.getOngoingActions().isEmpty());
     }
 
+    private void prepareSimpleActionView(String id) {
+        var aw = new ActionView(id, "test", "test", null, Collections.emptyList(), Collections.emptyList(), DURATION, false, true);
+        actionsManager.addNewAction(aw);
+    }
+
     private void prepareSimpleActionView(boolean isPeriodic) {
         var aw = new ActionView(ID1, "test", "test", null, Collections.emptyList(), Collections.emptyList(), DURATION, isPeriodic, true);
         actionsManager.addNewAction(aw);
@@ -56,10 +61,6 @@ class ActionsManagerTest {
     private void prepareSimpleActionViewResourceYields(List<ResourceYield> resourceYields, int duration) {
         var aw = new ActionView(ID1, "test", "test", null, resourceYields, Collections.emptyList(), duration, false, true);
         actionsManager.addNewAction(aw);
-    }
-
-    private void prepareSimpleActionViewActionYields(List<ActionYield> actionYields) {
-        prepareSimpleActionViewActionYields(ID1, actionYields);
     }
 
     private void prepareSimpleActionViewActionYields(String id, List<ActionYield> actionYields) {
@@ -207,5 +208,14 @@ class ActionsManagerTest {
         // both must be removed, regardless of order
         assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
         assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
+    }
+
+    @Test
+    public void shouldSeeOnlyUnlockedActions() {
+        this.prepareSimpleActionViewNotVisibleToUser();
+        this.prepareSimpleActionView(ID2);
+        assertEquals(2, actionsManager.getActionsMap().size());
+        assertEquals(1, actionsManager.getUnlockedActions().size());
+        assertEquals(ID2, actionsManager.getUnlockedActions().get(0).id());
     }
 }

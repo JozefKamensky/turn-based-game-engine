@@ -14,7 +14,15 @@ public class ActionsManager {
         actionsMap.put(action.getId(), action);
     }
 
-    Map<String, ActionView> getActionsMap() {
+    /*
+    * Get all actions that player can do, given unlimited amount of all necessary resources.
+    * */
+    public List<ActionView> getUnlockedActions() {
+        return actionsMap.values().stream()
+                .filter(ActionView::isVisibleByPlayer).toList();
+    }
+
+   protected Map<String, ActionView> getActionsMap() {
         return Collections.unmodifiableMap(actionsMap);
     }
 
