@@ -193,4 +193,19 @@ class ActionsManagerTest {
         assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
         assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
     }
+
+    @Test
+    public void shouldHandleStopActionRegardlessOfOrder() {
+        this.prepareLongSimpleActionView();
+        this.prepareSimpleActionViewActionYields(ID2, List.of(new ActionYield(ActionYield.ActionYieldType.ACTION_STOP, ID1)));
+        actionsManager.startNewAction(ID2);
+        actionsManager.startNewAction(ID1);
+        // both must be scheduled
+        assertEquals(1, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
+        assertEquals(1, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
+        actionsManager.onTurnStart();
+        // both must be removed, regardless of order
+        assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
+        assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
+    }
 }

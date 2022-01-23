@@ -1,6 +1,7 @@
 package jozef.kamensky.actions;
 
 import jozef.kamensky.actions.yields.ActionYield;
+import jozef.kamensky.actions.yields.ActionYieldComparator;
 
 import java.util.*;
 
@@ -41,16 +42,19 @@ public class ActionsManager {
     public Map<String, Integer> onTurnStart() {
         Map<String, Integer> yields = new HashMap<>();
         List<BaseAction> newOngoingActions = new LinkedList<>();
+        List<ActionYield> actionYields = new ArrayList<>();
         for (BaseAction action: ongoingActions) {
             if (action.isCompleted()) {
                 var actionView = actionsMap.get(action.getActionViewId());
                 handleResourceYields(actionView, yields);
-                handleActionYields(actionView, newOngoingActions);
+                actionYields.addAll(actionView.getActionYields());
                 newOngoingActions.addAll(action.getFollowUpActions());
             } else {
                 newOngoingActions.add(action);
             }
         }
+        actionYields.sort(new ActionYieldComparator());
+        handleActionYields(actionYields, newOngoingActions);
         ongoingActions = newOngoingActions;
         return yields;
     }
@@ -63,8 +67,7 @@ public class ActionsManager {
         });
     }
 
-    private void handleActionYields(ActionView actionView, List<BaseAction> newOngoingActions) {
-        var actionYields = actionView.getActionYields();
+    private void handleActionYields(List<ActionYield> actionYields, List<BaseAction> newOngoingActions) {
         for (ActionYield actionYield : actionYields) {
             switch (actionYield.getType()) {
                 case ACTION_UNLOCK -> actionsMap.put(actionYield.getId(), actionsMap.get(actionYield.getId()).cloneAsUnlocked());
