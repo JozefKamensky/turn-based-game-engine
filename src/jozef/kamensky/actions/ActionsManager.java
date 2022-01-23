@@ -14,7 +14,7 @@ public class ActionsManager {
         actionsMap.put(action.getId(), action);
     }
 
-    public Map<String, ActionView> getActionsMap() {
+    Map<String, ActionView> getActionsMap() {
         return Collections.unmodifiableMap(actionsMap);
     }
 
