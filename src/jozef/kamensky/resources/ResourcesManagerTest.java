@@ -3,6 +3,8 @@ package jozef.kamensky.resources;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourcesManagerTest {
@@ -60,6 +62,30 @@ class ResourcesManagerTest {
         resourcesManager.onTurnStart();
         var updatedResourceMap = resourcesManager.getResourceMap();
         assertEquals(40, updatedResourceMap.get(ID3).getAmount());
+    }
+
+    @Test
+    public void hasEnoughResources_hasMore() {
+        prepareRegularResource();
+        assertTrue(resourcesManager.hasEnoughResources(Map.of(ID1, 10)));
+    }
+
+    @Test
+    public void hasEnoughResources_hasJustRightAmount() {
+        prepareRegularResource();
+        assertTrue(resourcesManager.hasEnoughResources(Map.of(ID1, 20)));
+    }
+
+    @Test
+    public void hasEnoughResources_notEnough() {
+        prepareRegularResource();
+        assertFalse(resourcesManager.hasEnoughResources(Map.of(ID1, 30)));
+    }
+
+    @Test
+    public void hasEnoughResources_resourceDoesNotExists() {
+        prepareRegularResource();
+        assertFalse(resourcesManager.hasEnoughResources(Map.of(ID2, 20)));
     }
 
 }

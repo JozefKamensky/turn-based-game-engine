@@ -14,6 +14,22 @@ public class ResourcesManager implements OnTurnStart {
         resourceMap.put(resource.getId(), resource);
     }
 
+    /*
+    * Check whether player has enough resources.
+    * */
+    public boolean hasEnoughResources(Map<String, Integer> cost) {
+        for(Map.Entry<String, Integer> entry : cost.entrySet()) {
+            var resource = resourceMap.get(entry.getKey());
+            if (resource == null) {
+                return false;
+            }
+            if (resource.getAmount() < entry.getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public void onTurnStart() {
         resourceMap.forEach((s, resource) -> resource.onTurnStart(resourceMap));
