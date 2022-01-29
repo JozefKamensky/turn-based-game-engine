@@ -13,6 +13,9 @@ public class ActionsManager {
     public void addNewAction(ActionView action) {
         actionsMap.put(action.getId(), action);
     }
+    public void addNewActions(Collection<ActionView> actions) {
+        actions.forEach(a -> actionsMap.put(a.getId(), a));
+    }
 
     /*
     * Get all actions that player can do, given unlimited amount of all necessary resources.

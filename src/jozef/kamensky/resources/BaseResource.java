@@ -28,9 +28,7 @@ public abstract class BaseResource {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public abstract String getDescription();
 
     public int getMaxAmount() {
         return maxAmount;

@@ -2,9 +2,7 @@ package jozef.kamensky.resources;
 
 import jozef.kamensky.OnTurnStart;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ResourcesManager implements OnTurnStart {
 
@@ -12,6 +10,14 @@ public class ResourcesManager implements OnTurnStart {
 
     public void insertResource(BaseResource resource) {
         resourceMap.put(resource.getId(), resource);
+    }
+
+    public void insertResources(Collection<BaseResource> resources) {
+       resources.forEach(r -> resourceMap.put(r.getId(), r));
+    }
+
+    public List<ResourceView> getResources() {
+        return resourceMap.values().stream().map(ResourceView::fromResource).toList();
     }
 
     /*
@@ -33,6 +39,12 @@ public class ResourcesManager implements OnTurnStart {
     @Override
     public void onTurnStart() {
         resourceMap.forEach((s, resource) -> resource.onTurnStart(resourceMap));
+    }
+
+    public void addResource(String id, Integer amount) {
+        var r = resourceMap.get(id);
+        if (r == null) return;
+        r.addAmount(amount);
     }
 
     /* for test purposes only */
