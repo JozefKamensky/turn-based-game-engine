@@ -13,6 +13,7 @@ public class TurnManager {
 
     private final ResourcesManager resourcesManager;
     private final ActionsManager actionsManager;
+    private int turn = 1;
 
     public TurnManager() {
         resourcesManager = new ResourcesManager();
@@ -38,5 +39,14 @@ public class TurnManager {
         Map<String, Integer> yields = actionsManager.onTurnStart();
         resourcesManager.onTurnStart();
         yields.forEach(resourcesManager::addResource);
+        turn++;
+    }
+
+    public int getCurrentTurn() {
+        return turn;
+    }
+
+    public void startAction(String id) {
+        actionsManager.startNewAction(id);
     }
 }
