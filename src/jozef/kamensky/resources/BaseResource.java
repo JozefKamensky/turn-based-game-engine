@@ -7,7 +7,7 @@ public abstract class BaseResource {
     private static final int MIN_AMOUNT = 0;
     private final String id;
     private final String name;
-    private final String description;
+    final String description;
     private int amount;
     private final int maxAmount;
 

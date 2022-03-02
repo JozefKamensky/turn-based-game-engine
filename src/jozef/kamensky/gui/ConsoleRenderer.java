@@ -19,7 +19,7 @@ public class ConsoleRenderer extends AbstractRenderer {
 
     @Override
     public void renderResources(Collection<ResourceView> resources) {
-        resources.forEach(r -> System.out.printf("%s: %d|%d%n", r.getName(), r.getAmount(), r.getMaxAmount()));
+        resources.forEach(r -> System.out.printf("%s: %d|%d\n", r.getName(), r.getAmount(), r.getMaxAmount()));
     }
 
     @Override
@@ -27,9 +27,15 @@ public class ConsoleRenderer extends AbstractRenderer {
 
         actions.forEach(a -> {
             StringBuilder b = new StringBuilder();
-            a.getCost().forEach((id, amount) -> b.append(String.format("%d %s,", amount, id)));
-            b.deleteCharAt(b.lastIndexOf(","));
-            System.out.printf("[%s] %s - %s%n",a.getId(), a.getDescription(), b.toString());
+            if (!a.getCost().isEmpty()) {
+                a.getCost().forEach((id, amount) -> b.append(String.format("%d %s,", amount, id)));
+                if (a.getCost().size() > 1) {
+                    b.deleteCharAt(b.lastIndexOf(","));
+                }
+            } else {
+                b.append("no costs");
+            }
+            System.out.printf("[%s] %s - %s\n",a.getId(), a.getDescription(), b.toString());
         });
     }
 
@@ -40,17 +46,23 @@ public class ConsoleRenderer extends AbstractRenderer {
 
     @Override
     public void renderSelectActionInput() {
-        System.out.println("Enter id of action you want to perform:");
+        System.out.println("Enter id of action you want to perform:\n");
         try {
             String input = reader.readLine();
-            turnManager.startAction(input);
+            if ("NEXT".equals(input)) {
+                turnManager.nextTurn();
+            } else if ("EXIT".equals(input)) {
+                System.exit(0);
+            } else {
+                turnManager.startAction(input);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void renderCurrentTurn() {
-        System.out.printf("Current turn: %d", turnManager.getCurrentTurn());
+    public void renderCurrentTurn(int turn) {
+        System.out.printf("Current turn: %d\n", turn);
     }
 }

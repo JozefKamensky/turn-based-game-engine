@@ -18,6 +18,13 @@ public abstract class AbstractRenderer {
     public abstract void renderActions(Collection<ActionView> actions);
     public abstract void renderOngoingActions(Collection<ActionView> ongoingActions);
     public abstract void renderSelectActionInput();
-    public abstract void renderCurrentTurn();
+    public abstract void renderCurrentTurn(int turn);
+
+    public void render() {
+        renderCurrentTurn(turnManager.getCurrentTurn());
+        renderResources(turnManager.getResourceInfo());
+        renderActions(turnManager.getActionsInfo());
+        renderSelectActionInput();
+    }
 
 }

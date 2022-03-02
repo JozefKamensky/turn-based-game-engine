@@ -10,4 +10,9 @@ public class RegularResource extends BaseResource {
 
     @Override
     public void onTurnStart(Map<String, BaseResource> resourceMap) {}
+
+    @Override
+    public String getDescription() {
+        return super.description;
+    }
 }

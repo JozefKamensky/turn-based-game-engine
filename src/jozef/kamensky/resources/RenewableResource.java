@@ -12,4 +12,9 @@ public class RenewableResource extends BaseResource {
     public void onTurnStart(Map<String, BaseResource> resourceMap) {
         this.setAmount(getMaxAmount());
     }
+
+    @Override
+    public String getDescription() {
+        return String.format("%s (renewable)", super.description);
+    }
 }

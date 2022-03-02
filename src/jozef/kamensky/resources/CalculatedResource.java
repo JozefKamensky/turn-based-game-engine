@@ -23,4 +23,9 @@ public class CalculatedResource extends BaseResource {
         }
         setAmount(resource.getAmount() * multiplyBy);
     }
+
+    @Override
+    public String getDescription() {
+        return String.format("%s (calculated)", super.description);
+    }
 }
