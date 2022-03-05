@@ -75,10 +75,12 @@ public class TurnManager {
             // TODO: exception
             return;
         }
-        if (!isActionDoable(matches.get(0))) {
+        var actionToStart = matches.get(0);
+        if (!isActionDoable(actionToStart)) {
             // TODO: exception
             return;
         }
+        actionToStart.getCost().forEach((key, amount) -> resourcesManager.addResource(key, -amount));
         actionsManager.startNewAction(id);
     }
 }
