@@ -24,20 +24,26 @@ public class ConsoleRenderer extends AbstractRenderer {
     }
 
     @Override
-    public void renderActions(Collection<ActionView> actions) {
-        System.out.println("\nAvailable Actions to take:");
-        actions.forEach(a -> {
-            StringBuilder b = new StringBuilder();
-            if (!a.getCost().isEmpty()) {
-                a.getCost().forEach((id, amount) -> b.append(String.format("%d %s,", amount, id)));
-                if (a.getCost().size() > 1) {
-                    b.deleteCharAt(b.lastIndexOf(","));
-                }
-            } else {
-                b.append("no costs");
-            }
-            System.out.printf("[%s] %s - %s\n",a.getId(), a.getDescription(), b.toString());
-        });
+    public void renderDoableActions(Collection<ActionView> actions) {
+        System.out.println("\nAvailable Actions:");
+        actions.forEach(this::renderAction);
+    }
+
+    @Override
+    public void renderNotDoableActions(Collection<ActionView> actions) {
+        System.out.println("\nNot Available Actions:");
+        actions.forEach(this::renderAction);
+    }
+
+    private void renderAction(ActionView a) {
+        StringBuilder b = new StringBuilder();
+        if (!a.getCost().isEmpty()) {
+            a.getCost().forEach((id, amount) -> b.append(String.format("%d %s,", amount, id)));
+            b.deleteCharAt(b.lastIndexOf(","));
+        } else {
+            b.append("no costs");
+        }
+        System.out.printf("[%s] %s - %s\n",a.getId(), a.getDescription(), b.toString());
     }
 
     @Override

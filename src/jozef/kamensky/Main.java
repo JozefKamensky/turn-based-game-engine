@@ -30,7 +30,8 @@ public class Main {
                 Collections.emptyList(),
                 1,
                 false,
-                true
+                true,
+                1
                 );
         ActionView collectWood2 = new ActionView(
                 COLLECT_WOOD_ID_2,
@@ -41,7 +42,8 @@ public class Main {
                 Collections.emptyList(),
                 1,
                 false,
-                false
+                false,
+                1
         );
         ActionView unlockCollectWood2 = new ActionView(
                 UNLOCK_COLLECT_WOOD_ID_2,
@@ -51,11 +53,13 @@ public class Main {
                 Collections.emptyList(),
                 List.of(
                         new ActionYield(ActionYield.ActionYieldType.ACTION_LOCK, COLLECT_WOOD_ID_1),
-                        new ActionYield(ActionYield.ActionYieldType.ACTION_UNLOCK, COLLECT_WOOD_ID_2)
+                        new ActionYield(ActionYield.ActionYieldType.ACTION_UNLOCK, COLLECT_WOOD_ID_2),
+                        new ActionYield(ActionYield.ActionYieldType.ACTION_LOCK, UNLOCK_COLLECT_WOOD_ID_2)
                 ),
                 1,
                 false,
-                true
+                true,
+                1
         );
 
         TurnManager turnManager = new TurnManager(List.of(wood), List.of(collectWood1, collectWood2, unlockCollectWood2));

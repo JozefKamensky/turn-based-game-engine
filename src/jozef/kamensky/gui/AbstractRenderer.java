@@ -15,7 +15,8 @@ public abstract class AbstractRenderer {
     }
 
     public abstract void renderResources(Collection<ResourceView> resources);
-    public abstract void renderActions(Collection<ActionView> actions);
+    public abstract void renderDoableActions(Collection<ActionView> actions);
+    public abstract void renderNotDoableActions(Collection<ActionView> actions);
     public abstract void renderOngoingActions(Collection<ActionView> ongoingActions);
     public abstract void renderSelectActionInput();
     public abstract void renderCurrentTurn(int turn);
@@ -24,7 +25,8 @@ public abstract class AbstractRenderer {
         renderCurrentTurn(turnManager.getCurrentTurn());
         renderResources(turnManager.getResourceInfo());
         renderOngoingActions(turnManager.getOngoingActionsInfo());
-        renderActions(turnManager.getActionsInfo());
+        renderNotDoableActions(turnManager.getNotDoableActionsInfo());
+        renderDoableActions(turnManager.getDoableActionsInfo());
         renderSelectActionInput();
     }
 

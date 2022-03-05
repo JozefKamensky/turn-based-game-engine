@@ -34,37 +34,37 @@ class ActionsManagerTest {
     }
 
     private void prepareSimpleActionView(String id) {
-        var aw = new ActionView(id, "test", "test", null, Collections.emptyList(), Collections.emptyList(), DURATION, false, true);
+        var aw = new ActionView(id, "test", "test", null, Collections.emptyList(), Collections.emptyList(), DURATION, false, true, 1);
         actionsManager.addNewAction(aw);
     }
 
     private void prepareSimpleActionView(boolean isPeriodic) {
-        var aw = new ActionView(ID1, "test", "test", null, Collections.emptyList(), Collections.emptyList(), DURATION, isPeriodic, true);
+        var aw = new ActionView(ID1, "test", "test", null, Collections.emptyList(), Collections.emptyList(), DURATION, isPeriodic, true, 1);
         actionsManager.addNewAction(aw);
     }
 
     private void prepareLongSimpleActionView() {
-        var aw = new ActionView(ID1, "test", "test", null, Collections.emptyList(), Collections.emptyList(), 2, false, true);
+        var aw = new ActionView(ID1, "test", "test", null, Collections.emptyList(), Collections.emptyList(), 2, false, true, 1);
         actionsManager.addNewAction(aw);
     }
 
     private void prepareSimpleActionViewNotVisibleToUser() {
-        var aw = new ActionView(ID1, "test", "test", null, Collections.emptyList(), Collections.emptyList(), DURATION, false, false);
+        var aw = new ActionView(ID1, "test", "test", null, Collections.emptyList(), Collections.emptyList(), DURATION, false, false, 1);
         actionsManager.addNewAction(aw);
     }
 
     private void prepareSimpleActionViewResourceYields(List<ResourceYield> resourceYields) {
-        var aw = new ActionView(ID1, "test", "test", null, resourceYields, Collections.emptyList(), DURATION, false, true);
+        var aw = new ActionView(ID1, "test", "test", null, resourceYields, Collections.emptyList(), DURATION, false, true, 1);
         actionsManager.addNewAction(aw);
     }
 
     private void prepareSimpleActionViewResourceYields(List<ResourceYield> resourceYields, int duration) {
-        var aw = new ActionView(ID1, "test", "test", null, resourceYields, Collections.emptyList(), duration, false, true);
+        var aw = new ActionView(ID1, "test", "test", null, resourceYields, Collections.emptyList(), duration, false, true, 1);
         actionsManager.addNewAction(aw);
     }
 
     private void prepareSimpleActionViewActionYields(String id, List<ActionYield> actionYields) {
-        var aw = new ActionView(id, "test", "test", null, Collections.emptyList(), actionYields, DURATION, false, true);
+        var aw = new ActionView(id, "test", "test", null, Collections.emptyList(), actionYields, DURATION, false, true, 1);
         actionsManager.addNewAction(aw);
     }
 

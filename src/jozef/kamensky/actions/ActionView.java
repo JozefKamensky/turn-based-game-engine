@@ -10,7 +10,7 @@ public record ActionView(String id, String name, String description,
                          Map<String, Integer> cost,
                          List<ResourceYield> resourceYields,
                          List<ActionYield> actionYields,
-                         Integer duration, boolean isPeriodic, boolean isVisibleByPlayer) {
+                         Integer duration, boolean isPeriodic, boolean isVisibleByPlayer, int maxParallel) {
 
     public String getId() {
         return id;
@@ -44,12 +44,16 @@ public record ActionView(String id, String name, String description,
         return isVisibleByPlayer;
     }
 
+    public int maxParallel() {
+        return maxParallel;
+    }
+
     public ActionView cloneAsUnlocked() {
-        return new ActionView(id, name, description, cost, resourceYields, actionYields, duration, isPeriodic, true);
+        return new ActionView(id, name, description, cost, resourceYields, actionYields, duration, isPeriodic, true, maxParallel);
     }
 
     public ActionView cloneAsLocked() {
-        return new ActionView(id, name, description, cost, resourceYields, actionYields, duration, isPeriodic, false);
+        return new ActionView(id, name, description, cost, resourceYields, actionYields, duration, isPeriodic, false, maxParallel);
     }
 
 }

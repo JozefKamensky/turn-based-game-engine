@@ -29,6 +29,10 @@ public class ActionsManager {
         return ongoingActions.stream().map(a -> actionsMap.get(a.getActionViewId())).toList();
     }
 
+    public long numberOfOngoingActionsForId(String id) {
+        return ongoingActions.stream().filter(a -> a.getActionViewId().equals(id)).count();
+    }
+
    protected Map<String, ActionView> getActionsMap() {
         return Collections.unmodifiableMap(actionsMap);
     }

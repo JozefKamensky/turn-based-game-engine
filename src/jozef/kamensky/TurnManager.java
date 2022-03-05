@@ -35,6 +35,20 @@ public class TurnManager {
         return actionsManager.getUnlockedActions();
     }
 
+    public List<ActionView> getDoableActionsInfo() {
+        return actionsManager.getUnlockedActions().stream().filter(this::isActionDoable).toList();
+    }
+
+    public List<ActionView> getNotDoableActionsInfo() {
+        return actionsManager.getUnlockedActions().stream().filter(a -> !isActionDoable(a)).toList();
+    }
+
+    private boolean isActionDoable(ActionView action) {
+        boolean hasEnoughResources = resourcesManager.hasEnoughResources(action.getCost());
+        boolean lessThanMaxParallel = actionsManager.numberOfOngoingActionsForId(action.id()) < action.maxParallel();
+        return hasEnoughResources && lessThanMaxParallel;
+    }
+
     public List<ActionView> getOngoingActionsInfo() {
         return actionsManager.getOngoingActions();
     }
@@ -51,6 +65,20 @@ public class TurnManager {
     }
 
     public void startAction(String id) {
+        var doableActions = getDoableActionsInfo();
+        var matches = doableActions.stream().filter(a -> a.getId().equals(id)).toList();
+        if (matches.isEmpty()) {
+            // TODO: exception
+            return;
+        }
+        if (matches.size() > 1) {
+            // TODO: exception
+            return;
+        }
+        if (!isActionDoable(matches.get(0))) {
+            // TODO: exception
+            return;
+        }
         actionsManager.startNewAction(id);
     }
 }
