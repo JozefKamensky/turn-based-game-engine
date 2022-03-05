@@ -7,13 +7,14 @@ import jozef.kamensky.actions.yields.ResourceYield;
 import jozef.kamensky.gui.ConsoleRenderer;
 import jozef.kamensky.resources.RegularResource;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         final String WOOD_ID = "wood";
         final String COLLECT_WOOD_ID_1 = "collect_wood_1";
         final String COLLECT_WOOD_ID_2 = "collect_wood_2";

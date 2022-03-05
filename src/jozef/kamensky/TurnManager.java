@@ -35,6 +35,10 @@ public class TurnManager {
         return actionsManager.getUnlockedActions();
     }
 
+    public List<ActionView> getOngoingActionsInfo() {
+        return actionsManager.getOngoingActions();
+    }
+
     public void nextTurn() {
         Map<String, Integer> yields = actionsManager.onTurnStart();
         resourcesManager.onTurnStart();

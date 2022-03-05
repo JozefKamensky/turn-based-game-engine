@@ -30,7 +30,7 @@ class ActionsManagerTest {
 
     @Test
     public void newActionsManagerShouldNotHaveAnyOngoingActions() {
-        assertTrue(actionsManager.getOngoingActions().isEmpty());
+        assertTrue(actionsManager.getOngoingActionsTest().isEmpty());
     }
 
     private void prepareSimpleActionView(String id) {
@@ -78,16 +78,16 @@ class ActionsManagerTest {
     public void shouldStartNewOneTimeAction() {
         prepareSimpleActionView(false);
         actionsManager.startNewAction(ID1);
-        assertEquals(1, actionsManager.getOngoingActions().size());
-        assertTrue(actionsManager.getOngoingActions().get(0) instanceof OneTimeAction);
+        assertEquals(1, actionsManager.getOngoingActionsTest().size());
+        assertTrue(actionsManager.getOngoingActionsTest().get(0) instanceof OneTimeAction);
     }
 
     @Test
     public void shouldStartNewRepeatedAction() {
         prepareSimpleActionView(true);
         actionsManager.startNewAction(ID1);
-        assertEquals(1, actionsManager.getOngoingActions().size());
-        assertTrue(actionsManager.getOngoingActions().get(0) instanceof RepeatedAction);
+        assertEquals(1, actionsManager.getOngoingActionsTest().size());
+        assertTrue(actionsManager.getOngoingActionsTest().get(0) instanceof RepeatedAction);
     }
 
     @Test
@@ -95,17 +95,17 @@ class ActionsManagerTest {
         prepareSimpleActionView(false);
         actionsManager.startNewAction(ID1);
         actionsManager.onTurnStart();
-        assertTrue(actionsManager.getOngoingActions().isEmpty());
+        assertTrue(actionsManager.getOngoingActionsTest().isEmpty());
     }
 
     @Test
     public void shouldStartRepeatedActionAfterCompletion() {
         prepareSimpleActionView(true);
         actionsManager.startNewAction(ID1);
-        var originalAction = actionsManager.getOngoingActions().get(0);
+        var originalAction = actionsManager.getOngoingActionsTest().get(0);
         actionsManager.onTurnStart();
-        assertEquals(1, actionsManager.getOngoingActions().size());
-        var newAction = actionsManager.getOngoingActions().get(0);
+        assertEquals(1, actionsManager.getOngoingActionsTest().size());
+        var newAction = actionsManager.getOngoingActionsTest().get(0);
         assertNotSame(originalAction, newAction);
         assertEquals(originalAction.getActionViewId(), newAction.getActionViewId());
         assertEquals(originalAction.getDuration(), newAction.getDuration());
@@ -161,7 +161,7 @@ class ActionsManagerTest {
         actionsManager.startNewAction(ID2);
         actionsManager.onTurnStart();
         assertFalse(actionsManager.getActionsMap().get(ID1).isVisibleByPlayer());
-        assertEquals(1, actionsManager.getOngoingActions().size());
+        assertEquals(1, actionsManager.getOngoingActionsTest().size());
         var yields = actionsManager.onTurnStart();
         assertEquals(1, yields.size());
         assertEquals(10, yields.get("wood"));
@@ -171,13 +171,13 @@ class ActionsManagerTest {
     public void shouldHandleStartAction() {
         this.prepareSimpleActionView(false);
         this.prepareSimpleActionViewActionYields(ID2, List.of(new ActionYield(ActionYield.ActionYieldType.ACTION_START, ID1)));
-        assertTrue(actionsManager.getOngoingActions().isEmpty());
+        assertTrue(actionsManager.getOngoingActionsTest().isEmpty());
         actionsManager.startNewAction(ID2);
         actionsManager.onTurnStart();
         // action for actionview ID2 must end
-        assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
+        assertEquals(0, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
         // action for actionview ID1 must be scheduled
-        assertEquals(1, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
+        assertEquals(1, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
     }
 
     @Test
@@ -187,12 +187,12 @@ class ActionsManagerTest {
         actionsManager.startNewAction(ID1);
         actionsManager.startNewAction(ID2);
         // both must be scheduled
-        assertEquals(1, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
-        assertEquals(1, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
+        assertEquals(1, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
+        assertEquals(1, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
         actionsManager.onTurnStart();
         // both must be removed - ID2 was completed, ID1 was removed before completion
-        assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
-        assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
+        assertEquals(0, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
+        assertEquals(0, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
     }
 
     @Test
@@ -202,12 +202,12 @@ class ActionsManagerTest {
         actionsManager.startNewAction(ID2);
         actionsManager.startNewAction(ID1);
         // both must be scheduled
-        assertEquals(1, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
-        assertEquals(1, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
+        assertEquals(1, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
+        assertEquals(1, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
         actionsManager.onTurnStart();
         // both must be removed, regardless of order
-        assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
-        assertEquals(0, actionsManager.getOngoingActions().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
+        assertEquals(0, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID1)).count());
+        assertEquals(0, actionsManager.getOngoingActionsTest().stream().filter(a -> a.getActionViewId().equals(ID2)).count());
     }
 
     @Test

@@ -25,6 +25,10 @@ public class ActionsManager {
                 .filter(ActionView::isVisibleByPlayer).toList();
     }
 
+    public List<ActionView> getOngoingActions() {
+        return ongoingActions.stream().map(a -> actionsMap.get(a.getActionViewId())).toList();
+    }
+
    protected Map<String, ActionView> getActionsMap() {
         return Collections.unmodifiableMap(actionsMap);
     }
@@ -90,7 +94,7 @@ public class ActionsManager {
     }
 
     /* for test purposes only */
-    protected List<BaseAction> getOngoingActions() {
+    protected List<BaseAction> getOngoingActionsTest() {
         return ongoingActions;
     }
 }

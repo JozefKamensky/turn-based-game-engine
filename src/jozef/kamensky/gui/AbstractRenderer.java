@@ -23,6 +23,7 @@ public abstract class AbstractRenderer {
     public void render() {
         renderCurrentTurn(turnManager.getCurrentTurn());
         renderResources(turnManager.getResourceInfo());
+        renderOngoingActions(turnManager.getOngoingActionsInfo());
         renderActions(turnManager.getActionsInfo());
         renderSelectActionInput();
     }
