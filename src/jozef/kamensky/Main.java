@@ -63,9 +63,6 @@ public class Main {
         );
 
         TurnManager turnManager = new TurnManager(List.of(wood), List.of(collectWood1, collectWood2, unlockCollectWood2));
-        ConsoleRenderer consoleRenderer = new ConsoleRenderer(turnManager);
-        while(true) {
-            consoleRenderer.render();
-        }
+        new ConsoleRenderer(turnManager);
     }
 }

@@ -13,25 +13,26 @@ public class ConsoleRenderer extends AbstractRenderer {
 
     public ConsoleRenderer(TurnManager turnManager) {
         super(turnManager);
+        startGame();
     }
 
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     @Override
-    public void renderResources(Collection<ResourceView> resources) {
-        System.out.println("\nResources:");
+    void renderResources(Collection<ResourceView> resources) {
+        System.out.println("Resources:");
         resources.forEach(r -> System.out.printf("%s: %d|%d\n", r.getName(), r.getAmount(), r.getMaxAmount()));
     }
 
     @Override
-    public void renderDoableActions(Collection<ActionView> actions) {
-        System.out.println("\nAvailable Actions:");
+    void renderDoableActions(Collection<ActionView> actions) {
+        System.out.println("Available Actions:");
         actions.forEach(this::renderAction);
     }
 
     @Override
-    public void renderNotDoableActions(Collection<ActionView> actions) {
-        System.out.println("\nNot Available Actions:");
+    void renderNotDoableActions(Collection<ActionView> actions) {
+        System.out.println("Not Available Actions:");
         actions.forEach(this::renderAction);
     }
 
@@ -47,30 +48,64 @@ public class ConsoleRenderer extends AbstractRenderer {
     }
 
     @Override
-    public void renderOngoingActions(Collection<ActionView> ongoingActions) {
-        System.out.println("\nOngoing Actions:");
+    void renderOngoingActions(Collection<ActionView> ongoingActions) {
+        System.out.println("Ongoing Actions:");
         ongoingActions.forEach(a -> System.out.printf("[%s] %s\n",a.getId(), a.getDescription()));
     }
 
-    @Override
-    public void renderSelectActionInput() {
-        System.out.println("\nEnter id of action you want to perform, EXIT to exit or NEXT to end turn:\n");
+    public void startGame() {
+        System.out.println("Enter command you want to perform (HELP shows list of commands):\n");
+        handleInput();
+    }
+    private void handleInput() {
         try {
             String input = reader.readLine();
-            if ("NEXT".equals(input)) {
-                turnManager.nextTurn();
-            } else if ("EXIT".equals(input)) {
-                System.exit(0);
+            String command;
+            String id = "";
+            int spaceIndex = input.indexOf(" ");
+            if (spaceIndex != -1) {
+                command = input.substring(0, spaceIndex);
+                id = input.substring(spaceIndex + 1);
             } else {
-                turnManager.startAction(input);
+                command = input;
+            }
+            command = command.toUpperCase();
+            switch (command) {
+                case "HELP" -> renderHelp();
+                case "EXIT" -> System.exit(0);
+                case "NEXT" -> nextTurn();
+                case "RESOURCES" -> renderResources(turnManager.getResourceInfo());
+                case "ACTIONS" -> {
+                    renderDoableActions(turnManager.getDoableActionsInfo());
+                    renderNotDoableActions(turnManager.getNotDoableActionsInfo());
+                }
+                case "ONGOING" -> renderOngoingActions(turnManager.getOngoingActionsInfo());
+                case "START" -> startAction(id);
+                case "TURN" -> renderCurrentTurn();
+                default -> System.out.println("Unknown command");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        handleInput();
     }
 
     @Override
-    public void renderCurrentTurn(int turn) {
-        System.out.printf("Current turn: %d\n", turn);
+    public void renderCurrentTurn() {
+        System.out.printf("Current turn: %d\n", turnManager.getCurrentTurn());
+    }
+
+    private void nextTurn() {
+        turnManager.nextTurn();
+        renderCurrentTurn();
+    }
+
+    private void startAction(String id) {
+        var result = turnManager.startAction(id);
+        System.out.println(result ? "action started." : "action could not be started");
+    }
+
+    private void renderHelp() {
+        System.out.println("this is help");
     }
 }

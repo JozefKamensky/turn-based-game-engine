@@ -64,23 +64,24 @@ public class TurnManager {
         return turn;
     }
 
-    public void startAction(String id) {
+    public boolean startAction(String id) {
         var doableActions = getDoableActionsInfo();
         var matches = doableActions.stream().filter(a -> a.getId().equals(id)).toList();
         if (matches.isEmpty()) {
             // TODO: exception
-            return;
+            return false;
         }
         if (matches.size() > 1) {
             // TODO: exception
-            return;
+            return false;
         }
         var actionToStart = matches.get(0);
         if (!isActionDoable(actionToStart)) {
             // TODO: exception
-            return;
+            return false;
         }
         actionToStart.getCost().forEach((key, amount) -> resourcesManager.addResource(key, -amount));
         actionsManager.startNewAction(id);
+        return true;
     }
 }
